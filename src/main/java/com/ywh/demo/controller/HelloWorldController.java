@@ -3,7 +3,7 @@ package com.ywh.demo.controller;
 
 
 
-import com.ywh.demo.Bean.ConfigBean;
+import com.ywh.demo.model.ConfigBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
