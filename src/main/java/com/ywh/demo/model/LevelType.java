@@ -10,7 +10,9 @@ import java.lang.annotation.Target;
  * @date: 2019/2/20
  * @Description:
  */
+//运行时有效
 @Retention(RetentionPolicy.RUNTIME)
+//作用于成员方法
 @Target(ElementType.FIELD)
 public @interface LevelType {
 
