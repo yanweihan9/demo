@@ -60,7 +60,7 @@ public class Java8Test2 {
         System.out.println(map);
         System.out.println(map.getClass());
 
-        Map<String, Double> map1 = list.stream().collect(Collectors.groupingBy(Fruit::getName, () -> new ConcurrentSkipListMap(), Collectors.averagingInt(Fruit::getWeight)));
+        Map<String, Double> map1 = list.stream().collect(Collectors.groupingBy(Fruit::getName, ConcurrentSkipListMap::new, Collectors.averagingInt(Fruit::getWeight)));
         System.out.println(map1);
         System.out.println(map1.getClass());
         //上述的groupingBy()  都可以换成  groupingByConcurrent(),这个为并行的操作
@@ -76,7 +76,7 @@ public class Java8Test2 {
         System.out.println(names);
         List<String> newNames = list.stream().map(Fruit::getName).collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
         System.out.println(newNames);
-        //newNames.add("xxx");
+        newNames.add("xxx");
     }
 
     /**
@@ -90,10 +90,12 @@ public class Java8Test2 {
         System.out.println(collect);
 
         IntSummaryStatistics statistics = list.stream().collect(Collectors.summarizingInt(Fruit::getWeight));
+        System.out.println(statistics);
         System.out.println(statistics.getMax() + ":" + statistics.getSum());
 
         Integer sum1 = list.stream().collect(Collectors.reducing(0, Fruit::getWeight, Integer::sum));
-        Integer sum2 = list.stream().map(Fruit::getWeight).collect(Collectors.reducing(Integer::sum)).get();
+        Optional<Integer> collect1 = list.stream().map(Fruit::getWeight).collect(Collectors.reducing(Integer::sum));
+        Integer sum2 = collect1.get();
         Integer sum3 = list.stream().collect(Collectors.summingInt(Fruit::getWeight));
         System.out.println(sum1 + ":" + sum2 + ":" + sum3);
     }

@@ -1,11 +1,11 @@
 package com.ywh.demo.service;
 
-import org.springframework.boot.configurationprocessor.json.JSONStringer;
-
 import java.util.*;
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * @author: 颜伟晗
@@ -93,31 +93,37 @@ public class MyCollectors {
         }
     }
 
-   public static <T>
+    public static <T>
     Collector<T, ?, List<Integer>> toList1() {
         return
-            new MyCollectors.CollectorImpl<>(() -> {
-            List<Integer> result = new ArrayList<>();
-            result.add(0);
-            result.add(1);
-            return result;
-        }, (res, num) -> {
-            Integer next = res.get(res.size() - 1) + res.get(res.size() - 2);
-            res.add(next);
-        },
-            (left, right) -> { left.addAll(right); return left; }
-        ,
-            res -> {
-                res.remove(0);
-                return res;
-        },
-            Collections.emptySet());
+                new MyCollectors.CollectorImpl<>(() -> {
+                    List<Integer> result = new ArrayList<>();
+                    result.add(0);
+                    result.add(1);
+                    return result;
+                }, (res, num) -> {
+                    Integer next = res.get(res.size() - 1) + res.get(res.size() - 2);
+                    res.add(next);
+                },
+                        (left, right) -> {
+                            left.addAll(right);
+                            return left;
+                        }
+                        ,
+                        res -> {
+                            res.remove(0);
+                            return res;
+                        },
+                        Collections.emptySet());
     }
 
     public static <T>
     Collector<T, ?, List<T>> toList() {
         return new MyCollectors.CollectorImpl<>(ArrayList::new, List::add,
-                (left, right) -> { left.addAll(right); return left; },
+                (left, right) -> {
+                    left.addAll(right);
+                    return left;
+                },
                 CH_ID);
     }
 }

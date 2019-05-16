@@ -16,4 +16,14 @@ public interface FruitFilter {
      */
     boolean filter(Fruit fruit);
 
+    static boolean filter(){
+        return false;
+    };
+
+    boolean equals(Object o);
+
+
+
+
+
 }
